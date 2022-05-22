@@ -1,14 +1,15 @@
 {
-  "name": "vanserver",
-  "version": "1.0.0",
+  "name": "smartvan-server",
+  "author": "Julian Reis",
+  "license": "ISC",
+  "private": true,
+  "version": "0.1.0",
   "description": "rest api and some logic for smart van",
   "main": "server.js",
   "scripts": {
     "start": "tsc && node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "jreis",
-  "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",

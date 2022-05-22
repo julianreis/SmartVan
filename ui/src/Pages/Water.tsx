@@ -5,24 +5,19 @@ import MqttLevel from "../mqttDevices/MqttLevel/MqttLevel";
 import MqttWeight from "../mqttDevices/MqttWeight/MqttWeight";
 
 const Headline = styled("div")({
-  display: "flex"
-})
-  // padding-top: 5vh;
-  // display: flex;
-  // justify-content: center;
-  // color: ${p => p.theme.globalPage.color};
-
-
-const Wrapper = styled("div")({
-  padding: "40px 100px",
-  display: "flex"
+  display: "flex",
+  paddingTop: "5vh",
+  justifyContent: "center"
 })
   
-  // justify-content: center;
-  // flex-wrap: wrap;
-  // align-items: center;
-  // color: ${p => p.theme.globalPage.color};
-
+const Wrapper = styled("div")({
+  padding: "40px 100px",
+  display: "flex",
+  justifyContent: "center",
+  flexWrap: "wrap",
+  alignItems: "center"
+})
+  
 export default function Water() {
   return (
     <>

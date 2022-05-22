@@ -1,5 +1,5 @@
 import { Slider, styled } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { DashButton } from "../../components/dashContainer";
 import { useMqttContext } from "../../context/MqttContext";
 import { Icons } from "../../icons";
@@ -9,18 +9,10 @@ const IconContainer = styled("div")({
   width: "100px"
 
 })
-// <{ active: boolean }>`
-//   color: ${p => (p.active ? " #666602" : " black")};
-//   ${p => (p.active ? "filter: drop-shadow(3px 3px 2px yellow)" : "")};
-// `;
 
 const SwitchLabel = styled("span")({
   paddingLeft: "20px"
 })
-//   padding-left: 20px;
-//   font-weight: bold;
-//   color: ${p => p.theme.globalPage.color};
-// `;
 
 
 type Wifi = {

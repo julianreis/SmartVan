@@ -1,0 +1,13 @@
+{
+  "name": "smartvan",
+  "author": "Julian Reis",
+  "license": "ISC",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start:server": "cd server && npm run start",
+    "start:ui": "cd ui && npm run start",
+    "install:server": "cd server && npm i",
+    "install:ui": "cd ui && npm i"
+  }
+}
