@@ -9,74 +9,88 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
         throw err
     } else {
         console.log('Connected to the SQLite database.')
-        //db.run('DROP TABLE devices');
-        createMqttDeviceTable();
-        //db.run('DROP TABLE components');
-        createDeviceComponents();
-        //db.run('DROP TABLE componentsMqtt');
-        createDeviceMqttMappingTable();
-        //db.run('DROP TABLE devices');
-        createUserDevices();
+        initial()
     }
 });
 
-const createMqttDeviceTable = () => {
-    db.run(`CREATE TABLE IF NOT EXISTS devices (
+const runAsync = (query) => {
+    return new Promise(function (resolve, reject) {
+        if (db) {
+            db.run(query,
+                function (err) {
+                    if (err) reject(err.message)
+                    else resolve(true)
+                })
+        }
+        else reject(false)
+    })
+}
+
+const initial = async () => {
+    await dropTables()
+    console.log("Drop Finish")
+    await createTables()
+}
+
+const createTables = async () => {
+    try {
+        console.log('Create Tabels')
+        await createMqttDeviceTable();
+        await createDeviceComponents();
+        await createDeviceMqttMappingTable();
+        await createUserDevices();
+    }catch(err){
+        console.log("CreateTable: ", err)
+    }
+}
+
+const dropTables = async () => {
+    console.log('Drop Tabels')
+     try {
+        await runAsync('DROP TABLE IF EXISTS devices')
+        await runAsync('DROP TABLE IF EXISTS user');
+        await runAsync('DROP TABLE IF EXISTS components');
+        await runAsync('DROP TABLE IF EXISTS componentsMqtt');
+        await runAsync('DROP TABLE IF EXISTS userdevices');
+    }catch(err) {
+        console.log("DropTables", err)
+    }
+}
+
+const createMqttDeviceTable = async () => {
+    await runAsync(`CREATE TABLE IF NOT EXISTS devices (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name text UNIQUE,
             type text,
             state text,
             lastupdate text,
             CONSTRAINT name_unique UNIQUE (name)
-            )`,
-        (err) => {
-            if (err) {
-                // Table already created
-                console.log("DB ERROR: ", err)
-            } else {
-                // Table just created, creating some rows
-                console.log("createtd Devices")
+            )`).then(() => {
                 // var insert = 'INSERT OR REPLACE INTO devices (name, type, state, lastupdate) VALUES (?,?,?,?)'
                 // db.run(insert, ["SERVER","MQTT_SERVER","Online",new Date()])
                 insertOrUpdateDevice("SERVER", "MQTT_SERVER", "Online")
-            }
-        });
+            })
 }
 
-const createDeviceMqttMappingTable = () => {
-    db.run(`CREATE TABLE IF NOT EXISTS componentsMqtt (
+const createDeviceMqttMappingTable = async () => {
+    await runAsync(`CREATE TABLE IF NOT EXISTS componentsMqtt (
             id_mqtt INTEGER NOT NULL,
             id_component text NOT NULL,
+            CONSTRAINT id_unique UNIQUE (id_mqtt)
             FOREIGN KEY (id_mqtt) REFERENCES devices (id),
             FOREIGN KEY (id_component) REFERENCES components (id) 
-            )`,
-        (err) => {
-            if (err) {
-                // Table already created
-                console.log("DB ERROR: ", err)
-            } else {
-                console.log("createtd components Mqtt")
-            }
-        });
+            )`);
 }
 
-const createDeviceComponents = () => {
-    db.run(`CREATE TABLE IF NOT EXISTS components (
+const createDeviceComponents = async () => {
+    await runAsync(`CREATE TABLE IF NOT EXISTS components (
             name text PRIMARY KEY,
             lastupdate text
-            )`,
-        (err) => {
-            if (err) {
-                // Table already created
-                console.log("DB ERROR: ", err)
-            } else {
-                console.log("createtd components")
-            }
-        });
+            )`);
 }
 
-const createUserDevices = () => {
-    db.run(`CREATE TABLE IF NOT EXISTS userdevices (
+const createUserDevices = async () => {
+    await runAsync(`CREATE TABLE IF NOT EXISTS userdevices (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             id_component INTEGER,
             name text UNIQUE,
@@ -84,54 +98,30 @@ const createUserDevices = () => {
             state text,
             CONSTRAINT name_unique UNIQUE (name),
             FOREIGN KEY (id_component) REFERENCES components (id)
-            )`,
-        (err) => {
-            if (err) {
-                // Table already created
-                console.log("DB ERROR: ", err)
-            } else {
-                console.log("createtd userdevices")
-            }
-        });
+            )`);
 }
 
 const insertOrUpdateDevice = async (name, type, state) => {
     var insert = `INSERT OR REPLACE INTO devices (id, name, type, state, lastupdate) VALUES ((select id from devices where Name = '${name}'),'${name}','${type}','${state}','${new Date().getTime()}')`
     //console.log("run DB: ", insert)
-    if (db) {
-        await run(insert)
-    }
+    await runAsync(insert)
 }
 
 const insertComponent = async (name) => {
     const componentName = createComponentName(name);
     var insert = `INSERT OR IGNORE INTO components (name, lastupdate) VALUES ('${componentName}','${new Date().getTime()}')`
-    if (db) {
-        await new Promise(function (resolve, reject) {
-            if (db) {
-                db.run(insert, function (err) {
-                    if (err) reject(err.message)
-                    else {
-                        resolve(true)
-                    }
-                })
-            }
-            else reject(false)
-        })
-        await insertMqttComponentMapping(name)
-    }
+    runAsync(insert).then(() => {
+        insertMqttComponentMapping(componentName)
+    })
 }
 
-const insertMqttComponentMapping = async (name) => {
+const insertMqttComponentMapping = async (componentName) => {
     var insert = `INSERT OR IGNORE INTO componentsMqtt (id_mqtt, id_component)
     SELECT d.id, c.name FROM devices as d 
-        LEFT JOIN components as c ON d.name LIKE "%${name}%"
-        WHERE d.name LIKE "%${name}%"
+        LEFT JOIN components as c ON c.name LIKE "%${componentName}%"
+        WHERE d.name LIKE "%${componentName}%"
         GROUP BY d.name`
-    console.log("run DB: ", insert)
-    if (db) {
-        await run(insert)
-    }
+    await runAsync(insert)
 }
 
 const createComponentName = (name) => {
@@ -149,22 +139,8 @@ const createComponentName = (name) => {
     return name
 }
 
-const run = (query) => {
-    return new Promise(function (resolve, reject) {
-        if (db) {
-            db.run(query,
-                function (err) {
-                    if (err) reject(err.message)
-                    else resolve(true)
-                })
-        }
-        else reject(false)
-    })
-}
-
-
 module.exports = {
     db,
     insertOrUpdateDevice,
-    insertComponent
+    insertComponent,
 }

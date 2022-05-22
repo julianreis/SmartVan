@@ -86,7 +86,7 @@ app.use(function (req, res) {
 });
 //handle incoming messages
 mqtt.on("message", function (topic, message, packet) {
-    //console.log("topic: ", topic, " - message: ", message.toString());
+    console.log("topic: ", topic, " - message: ", message.toString());
     database.insertOrUpdateDevice(topic, "TEST", message.toString());
     database.insertComponent(topic);
 });

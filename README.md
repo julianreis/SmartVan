@@ -43,4 +43,15 @@ ausführen
 
 
 ## Server
-- TBD
+### Ablauf
+- MQTT Nachricht wird empfangen
+- Es wird für jeden Topic ein eintrag in der Device Tabelle gemacht mit dem Aktuellen Status, dem Typen, sowie dem datum / uhrzeit des letzten eintrags
+- Anschließend wird die Komponente Angelegt
+- Es wird der Name (Analysiert)
+- Es wird mit dem Namen ein eintrag in die Components Tabelle angelegt
+- Anschließend wird ein eintrag in die Mapping Tabelle "MqttComponents" engelegt.
+  - Idee dahinter ist, ein Gerät hat mehrere Topics auf dem es sendet, /Main/Licht/Status /Main/Licht/setState /Main/Lich/getState ...
+  - In der Tabelle Components soll eine Übersicht der Konkreten Komponente angelegt sein
+  - in devices alle Schnittstellen die zu einer Komponente gehören
+  - In der Tabelle componentsMqtt ist die beziehung zwischen den components und dem Devices
+
