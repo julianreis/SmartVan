@@ -1,29 +1,30 @@
-import { Button, TextField } from "@material-ui/core";
+import { styled, TextField, Button } from "@mui/material";
 import React, { useRef, useState } from "react";
-import styled from "styled-components";
 import { ConnectionStatus, useMqttContext } from "../../context/MqttContext";
 
-const InputWrapper = styled.div``;
+const InputWrapper = styled("div")({
+  display: "block"
+})
 
-const FormBox = styled.div`
-  width: 100%;
-  border-radius: 5px;
-  background-color: ${p => p.theme.boxBackground};
-  box-shadow: 5px 10px 6px -6px ${p => p.theme.shadowColor};
-  padding: 20px;
-  max-width: 80vw;
-  margin: 20px 0;
-  color: ${p => p.theme.globalPage.color};
-`;
+const FormBox = styled("div")({
+  width: "100%"
+  // width: "100%",
+  // borderRadius: "5px",
+  // padding: "20px",
+  // max-width: 80vw;
+  // margin: 20px 0;
+  // color: ${p => p.theme.globalPage.color};
+})
 
-const ButtonContainer = styled.div`
-  color: ${p => p.theme.globalPage.color};
-  padding: 10px 0;
-`;
+const ButtonContainer = styled("div")({
+  padding: "10px 0"
+  // color: ${p => p.theme.globalPage.color};
+  // padding: 10px 0;
+})
 
-const Status = styled.div`
-  padding: 10px 0;
-`;
+const Status = styled("div")({
+  padding: "10px 0"
+})
 
 export default function ConnectionForm() {
   const {

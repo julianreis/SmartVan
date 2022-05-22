@@ -47,7 +47,6 @@ export default function MqttLevel({ mqttTopic, name }: Props) {
     pathColor: "#6bccfa",
     textColor: "#6bccfa",
     trailColor: "#386693",
-    backgroundColor: theme?.globalPage.background
   });
 
   const handleIncommingMSG = (topic: string, msg: Buffer) => {

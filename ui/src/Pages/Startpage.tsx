@@ -1,47 +1,30 @@
+import { styled } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
 import { Icons } from "../icons";
 
-const ButtonWrapper = styled.div`
-  display: flex;
-  margin: 50px 40px;
-  justify-content: space-between;
-  flex-wrap: wrap;
-`;
-
-const LinkButton = styled(Link)`
-  background-color: ${p => p.theme.button.background};
-  color: ${p => p.theme.button.color};
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 80px;
-  width: 80px;
-  padding: 16px;
-  margin: 10px;
-  box-shadow: 0 10px 6px -6px ${p => p.theme.shadowColor};
-
-  text-decoration: none;
-  color: black;
-  font-size: 16px;
-
-  a {
-    text-decoration: none;
-    color: ${p => p.theme.button.color};
-  }
-
-  > div {
-    padding-top: 10px;
-    color: ${p => p.theme.button.color};
-  }
-
-  > svg {
-    color: ${p => p.theme.button.color};
-  }
-`;
+const ButtonWrapper = styled("div")({
+  display: "flex",
+  margin: "50px 40px",
+  justifyContent: "space-between",
+  flexWrap: "wrap"
+})
+  
+const LinkButton = styled(Link)(({theme}) => ({
+  backgroundColor: theme.palette.secondary.main,
+  color: theme.palette.secondary.contrastText,
+  borderRadius: "10px",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  height: "80px",
+  width: "80px",
+  padding: "16px",
+  margin: "10px",
+  boxShadow: theme.shadows[10],
+  textDecoration: "none",
+}))
 
 export default function Startpage() {
   return (

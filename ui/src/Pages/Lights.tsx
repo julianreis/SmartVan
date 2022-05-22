@@ -1,24 +1,27 @@
-import { Typography } from "@material-ui/core";
-import React from "react";
-import styled from "styled-components";
+import { styled, Typography } from "@mui/material";
 import MqttDimmer from "../mqttDevices/MqttDimmer/MqttDimmer";
 import MqttSwitch from "../mqttDevices/Switch/MqttSwitch";
 
-const Headline = styled.div`
-  padding-top: 5vh;
-  display: flex;
-  justify-content: center;
-  color: ${p => p.theme.globalPage.color};
-`;
+const Headline = styled("div")({
+display: "flex",
+paddingTop: "5vh",
+display: "flex",
+justifyContent: "center"
+})
+  // padding-top: 5vh;
+  // display: flex;
+  // justify-content: center;
+  // color: ${p => p.theme.globalPage.color};
 
-const Wrapper = styled.div`
-  padding: 40px 100px;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  align-items: center;
-  color: ${p => p.theme.globalPage.color};
-`;
+const Wrapper = styled("div")({
+  padding: "40px 100px"
+})
+  
+  // display: flex;
+  // justify-content: center;
+  // flex-wrap: wrap;
+  // align-items: center;
+  // color: ${p => p.theme.globalPage.color};
 
 export default function Lights() {
   return (

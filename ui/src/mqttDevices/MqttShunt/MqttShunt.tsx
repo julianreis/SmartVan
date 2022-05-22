@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-
-import styled from "styled-components";
 import { DashButton } from "../../components/dashContainer";
 import { useMqttContext } from "../../context/MqttContext";
 

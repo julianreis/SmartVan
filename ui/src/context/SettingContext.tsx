@@ -1,3 +1,4 @@
+import { Theme } from "@mui/material";
 import React, {
   createContext,
   ReactElement,
@@ -5,11 +6,10 @@ import React, {
   useContext,
   useState
 } from "react";
-import { DefaultTheme } from "styled-components";
 
 interface ISettingsContext {
-  setTheme: (val: DefaultTheme) => void;
-  theme: DefaultTheme | undefined;
+  setTheme: (val: Theme) => void;
+  theme: Theme | undefined;
 }
 
 const NotImplemented = () => null;
@@ -24,7 +24,7 @@ type Props = {
 };
 
 export default function SettingsProvider(props: Props): ReactElement {
-  const [theme, setTheme] = useState<DefaultTheme>();
+  const [theme, setTheme] = useState<Theme>();
   //   useColorScheme(val => {
   //     setTheme(val);
   //   });

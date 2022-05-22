@@ -1,24 +1,27 @@
-import { Slider } from "@material-ui/core";
+import { Slider, styled } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 import { DashButton } from "../../components/dashContainer";
 import { useMqttContext } from "../../context/MqttContext";
 import { Icons } from "../../icons";
 
-const IconContainer = styled.div<{ active: boolean }>`
-  height: 100px;
-  width: 100px;
-  color: ${p => (p.active ? " #666602" : " black")};
-  ${p => (p.active ? "filter: drop-shadow(3px 3px 2px yellow)" : "")};
-`;
+const IconContainer = styled("div")({
+  height: "100px",
+  width: "100px"
 
-const SwitchLabel = styled.span`
-  padding-left: 20px;
-  font-weight: bold;
-  color: ${p => p.theme.globalPage.color};
-`;
+})
+// <{ active: boolean }>`
+//   color: ${p => (p.active ? " #666602" : " black")};
+//   ${p => (p.active ? "filter: drop-shadow(3px 3px 2px yellow)" : "")};
+// `;
 
-const StatusLabel = styled.div``;
+const SwitchLabel = styled("span")({
+  paddingLeft: "20px"
+})
+//   padding-left: 20px;
+//   font-weight: bold;
+//   color: ${p => p.theme.globalPage.color};
+// `;
+
 
 type Wifi = {
   AP: number;
@@ -131,7 +134,7 @@ export default function MqttDimmer({ mqttTopic, name }: Props) {
 
   return (
     <DashButton>
-      <IconContainer active={value > 0 ? true : false}>
+      <IconContainer>
         {Icons.light}
       </IconContainer>
       <SwitchLabel>{name}</SwitchLabel>
@@ -148,7 +151,7 @@ export default function MqttDimmer({ mqttTopic, name }: Props) {
         onChangeCommitted={sendValue}
         value={value}
       />
-      <StatusLabel>{devStatus}</StatusLabel>
+      <div>{devStatus}</div>
     </DashButton>
   );
 }

@@ -1,31 +1,32 @@
-import { Button } from "@material-ui/core";
+
 import React, { useState } from "react";
-import styled from "styled-components";
-import Modal from 'react-modal';
 import { useEffect } from "react";
+import { Button, Modal, styled} from "@mui/material"
 
-const FormBox = styled.div`
-  width: 100%;
-  border-radius: 5px;
-  background-color: ${p => p.theme.boxBackground};
-  box-shadow: 5px 10px 6px -6px ${p => p.theme.shadowColor};
-  padding: 20px;
-  max-width: 80vw;
-  margin: 20px 0;
-  color: ${p => p.theme.globalPage.color};
-`;
+const FormBox = styled("div")({
+  width: "100%"
+})
+//   width: 100%;
+//   border-radius: 5px;
+//   background-color: ${p => p.theme.boxBackground};
+//   box-shadow: 5px 10px 6px -6px ${p => p.theme.shadowColor};
+//   padding: 20px;
+//   max-width: 80vw;
+//   margin: 20px 0;
+//   color: ${p => p.theme.globalPage.color};
 
-const Headline = styled.h1`
-  padding: 0px;
-  margin: 0px;
-`;
+const Headline = styled("h1")({
+  padding: "0px",
+  margin: "0px"
+}) 
 
-const List = styled.div`
-  padding: 10px 0;
-  > li {
-    margin: 5px 0;
+
+const List = styled("div")({
+  padding: "10px 0",
+  "> li" : {
+    margin: "5px 0"
   }
-`;
+})
 
 export type Device = {
   id: number
@@ -106,10 +107,7 @@ export default function DeviceList() {
         </List>
       )}
       <Modal
-        isOpen={modalIsOpen}
-        shouldCloseOnOverlayClick={false}
-        onRequestClose={closeModal}
-        ariaHideApp={false}
+        open={modalIsOpen}
       >
         <div>
           <h1>{deviceDetail?.name}</h1>

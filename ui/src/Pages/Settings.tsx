@@ -1,15 +1,13 @@
-import React from "react";
-import styled from "styled-components";
+import { styled } from "@mui/material";
 import DeviceList from "../components/DeviceList/DeviceList";
 
-const Wrapper = styled.div`
-  padding: 30px 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: ${p => p.theme.globalPage.color};
-`;
+const Wrapper = styled("div")({
+  padding: "30px 0",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center"
+})
 
 export default function Settings() {
   return (

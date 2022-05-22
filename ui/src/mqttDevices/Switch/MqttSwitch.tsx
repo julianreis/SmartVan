@@ -1,23 +1,23 @@
+import { styled } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 import { DashButton } from "../../components/dashContainer";
 import { useMqttContext } from "../../context/MqttContext";
 import { Icons } from "../../icons";
 
-const IconContainer = styled.div<{ active: boolean }>`
-  height: 100px;
-  width: 100px;
-  color: ${p => (p.active ? " #666602" : " black")};
-  ${p => (p.active ? "filter: drop-shadow(3px 3px 2px yellow)" : "")};
-`;
+const IconContainer = styled("div")<{active: boolean}>(({ active }) => ({
+  height: "100px",
+  color: active ? "#666602" : "black"
+}))
 
-const SwitchLabel = styled.span`
-  padding-left: 20px;
-  font-weight: bold;
-  color: ${p => p.theme.globalPage.color};
-`;
+//   width: 100px;
+//   ${p => (p.active ? "filter: drop-shadow(3px 3px 2px yellow)" : "")};
 
-const StatusLabel = styled.div``;
+
+const SwitchLabel = styled("span")({
+  paddingLeft: "20px",
+  fontWeight: "bold",
+})
+  
 
 type Wifi = {
   AP: number;
@@ -132,7 +132,7 @@ export default function MqttSwitch({ mqttTopic, label, channel }: Props) {
     >
       <IconContainer active={active}>{Icons.light}</IconContainer>
       <SwitchLabel>{label}</SwitchLabel>
-      <StatusLabel>{devStatus}</StatusLabel>
+      <div>{devStatus}</div>
     </DashButton>
   );
 }
